@@ -58,13 +58,13 @@ initial infection:
 next reboot:
                    load and execute    ___________________
     DXE dispatcher ---------------->  | main memory       |
-                        ^             | ----------------- | GetVariable()    _______________________
-                        |             | chainloader stub  | --------------> | main memory           |
-                    option rom        |___________________|        ^        | --------------------- | decompress, manually map then jump to entry
-                    <chainloader stub>                             |        | chainloader stub      | -------
-                                                                   |        | ...                   |        |
-                                                                   |        | compressed dxe driver | <------
-                                                                   |        |_______________________| ------------------> dxe driver executes
+                        ^             | ----------------- | GetVariable()    __________________
+                        |             | chainloader stub  | --------------> | main memory      | SetVariable()
+                    option rom        |___________________|        ^        | ---------------- | -------------> remove RUNTIME_ACCESS flag
+                    <chainloader stub>                             |        | chainloader stub | -------
+                                                                   |        | ...              |        | decompress, manually map then jump to entry
+                                                                   |        | dxe driver       | <------
+                                                                   |        |__________________| ------------------> dxe driver executes
                                                                    |
                                                                  NVRAM
                                                                  <compressed dxe driver>
@@ -72,15 +72,15 @@ next reboot:
 ransomware:
 ----------------
 RAMIEL currently loads a simple < 25kb uefi ransomware, which is kind of pointless since ransomware doesnt need persistence but oh well.
-the ransomware itself is nothing remarkable, it is meant to be small so as to fit in a single nvram variable and-
-uses diskio to avoid the bloat of specific filesystem drivers, making it entirely OS agnostic. it will eventually use AES-NI-
-for faster encryption but im too lazy to wrangle with openssl currently.
+the ransomware itself is nothing remarkable, it is meant to be small in order to fit in a single nvram variable and-
+uses diskio to avoid the overhead of filesystem specific drivers, making it entirely OS agnostic. it will eventually use AES-NI-
+for faster encryption but currently i am too lazy to wrangle with openssl currently.
 
-the ransomware will display a fake firmware update message warning victims not to reboot to maximize damage done.
-as there are no AVs to worry about, the ransomware might actually be quite effective.
+the ransomware displays a fake firmware update message warning victims not to reboot to maximize damage done.
+as there are no AVs to worry about, the ransomware may be quite effective.
 
 todo:
 ----------------
 this project is a WORK IN PROGRESS and has not been tested on bare metal as of yet.
-i intend to implement an OVA-based infection method as well as a simple packer to get binary sizes as small as possible.
+i intend to implement an OVA based infection method as well as a simple packer to get binary sizes as small as possible.
 i may also implement the ability to break a large binary into chunks to bypass the max NVRAM variable size limit.
