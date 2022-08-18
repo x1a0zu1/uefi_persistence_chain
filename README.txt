@@ -15,10 +15,11 @@
                    #%#
 
 <RAMIEL POC>
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-| -> persistence via flashing PCI option rom dxe drivers which chainloading from nvram |
-| -> POC uefi ransomware                                                               |
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| -> persistence via flashing PCI option rom dxe drivers, |
+     which manually map arbitrary code stored in nvram    |
+| -> POC uefi ransomware                                  |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 abstract:
 ----------------
@@ -30,14 +31,14 @@ signatures are often checked at the firmware update level, but are not for most 
 thus, it is possible to flash the NICs option ROM with unsigned code.
 
 PCI option rom is often the target for persistence but it is limited by its small size-
-as well as their ability to be easily dumped by firmware update utilities.
+as well as its ability to be easily dumped from OS by firmware update utilities.
 NVRAM variables without the RUNTIME_ACCESS flag set cannot be dumped easily from OS-
 but code stored in NVRAM is never executed automatically.
 
 RAMIEL presents a novel persistence method that attempts to fix these limitations-
-via a small stub stored in PCI option rom that chainloads and decompresses a compressed dxe driver stored in nvram.
-as the loaded driver is manually mapped RAMIEL will work with secure boot enabled.
-RAMIEL can survive complete hard drive wipes as it persists entirely off disk-
-and the compressed driver cannot be easily dumped from OS.
+via a small stub stored in PCI option rom that chainloads and decompresses a compressed dxe driver stored in nvram,
+RAMIEl cant prevent the compressed driver from being easily dumped from OS.
+and as the loaded driver is manually mapped RAMIEL will work with secure boot enabled.
+RAMIEL will survive complete hard drive wipes as it persists entirely off disk-
 
 work in progress...
