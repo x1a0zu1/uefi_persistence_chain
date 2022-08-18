@@ -41,4 +41,40 @@ RAMIEl cant prevent the compressed driver from being easily dumped from OS.
 and as the loaded driver is manually mapped RAMIEL will work with secure boot enabled.
 RAMIEL will survive complete hard drive wipes as it persists entirely off disk-
 
+-> diagram
+initial infection:
+                                      flash    __________________
+    intel NIC firmware update utility ----->  | option rom       |
+                                              | ---------------- |
+                                              | chainloader stub |
+                                              |__________________|
+
+                         SetVariable()    _______________________
+    EFI runtime services ------------->  | NVRAM                 |
+                                         | --------------------- |
+                                         | compressed dxe driver |
+                                         |_______________________|
+
+next reboot:
+                   load and execute    ___________________
+    DXE dispatcher ---------------->  | main memory       |
+                        ^             | ----------------- | GetVariable()    _______________________
+                        |             | chainloader stub  | --------------> | main memory           |
+                    option rom        |___________________|        ^        | --------------------- | decompress, manually map then jump to entry
+                                                                   |        | chainloader stub      | -------
+                                                                   |        | ...                   |        |
+                                                                   |        | compressed dxe driver | <------
+                    <chainloader stub>                             |        |_______________________| ------------------> dxe driver executes
+                                                                   |
+                                                                 NVRAM
+                                                                 <compressed dxe driver>
+
+persistence:
+----------------
+
+
+
+ransomware:
+----------------
+
 work in progress...
