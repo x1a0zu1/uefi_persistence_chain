@@ -16,7 +16,7 @@
 
 <RAMIEL POC>
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-| -> persistence via flashing PCI option rom dxe drivers, |
+| -> persistence via flashing PCI option rom DXE drivers, |
      which manually map arbitrary code stored in nvram    |
 | -> POC uefi ransomware                                  |
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -35,12 +35,14 @@ as well as its ability to be easily dumped from OS by firmware update utilities.
 NVRAM variables without the RUNTIME_ACCESS flag set cannot be dumped easily from OS-
 but code stored in NVRAM is never executed automatically.
 
-RAMIEL presents a novel persistence method that attempts to remedy these limitations.
-via a small stub stored in PCI option rom that chainloads and decompresses a compressed dxe driver stored in nvram,
+RAMIEL presents a novel persistence "chain" that attempts to remedy these limitations.
+via a small stub stored in PCI option rom that decompresses manually maps a compressed DXE driver stored in nvram,
 RAMIEl can prevent the compressed driver from being easily dumped from OS,-
-utilize around ~300kb (on average) of extra storage and execute code during dxe.
-since the driver is manually mapped, RAMIEL will function with secure boot enabled-
-and survive complete hard drive wipes as it persists entirely off disk.
+utilize around ~300kb (on average) of extra storage, and execute code during DXE.
+
+** since the driver is manually mapped, RAMIEL will function with secure boot enabled.
+** since RAMIEL persists entirely off disk, it will survive OS re-installation, complete hard drive wipes-
+   and even persist in diskless netboot systems.
 
 -> diagram
 initial infection:
@@ -53,7 +55,7 @@ initial infection:
                          SetVariable()    _______________________
     EFI runtime services ------------->  | NVRAM                 |
                                          | --------------------- |
-                                         | compressed dxe driver |
+                                         | compressed DXE driver |
                                          |_______________________|
 
 next reboot:
@@ -64,11 +66,11 @@ next reboot:
                     option rom        |___________________|        ^        | ---------------- | -------------> remove RUNTIME_ACCESS flag
                     <chainloader stub>                             |        | chainloader stub | -------
                                                                    |        | ...              |        | decompress, manually map then jump to entry
-                                                                   |        | dxe driver       | <------
-                                                                   |        |__________________| ------------------> dxe driver executes
+                                                                   |        | DXE driver       | <------
+                                                                   |        |__________________| ------------------> DXE driver executes
                                                                    |
                                                                  NVRAM
-                                                                 <compressed dxe driver>
+                                                                 <compressed DXE driver>
 
 ransomware:
 ----------------
