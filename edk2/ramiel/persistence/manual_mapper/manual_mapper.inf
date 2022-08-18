@@ -1,0 +1,32 @@
+[Defines]
+  INF_VERSION = 1.25
+  BASE_NAME = manual_mapper
+  FILE_GUID = 57e2ce2c-2406-44bc-94f7-db68658713fe
+  MODULE_TYPE = UEFI_APPLICATION
+  VERSION_STRING = 1.0
+  ENTRY_POINT = UefiEntry
+
+[Sources]
+  manual_mapper.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+    UefiApplicationEntryPoint
+    UefiLib
+    BaseLib
+    BaseMemoryLib
+    MemoryAllocationLib
+
+
+[Guids]
+
+[Ppis]
+
+[Protocols]
+
+[FeaturePcd]
+
+[FixedPcd]

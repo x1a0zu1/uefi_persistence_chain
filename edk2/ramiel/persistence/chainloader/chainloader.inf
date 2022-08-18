@@ -1,0 +1,32 @@
+[Defines]
+  INF_VERSION = 1.25
+  BASE_NAME = chainloader
+  FILE_GUID = 13089cbe-704b-4f35-a443-ef751fa0bc5d
+  MODULE_TYPE = UEFI_APPLICATION
+  VERSION_STRING = 1.0
+  ENTRY_POINT = UefiEntry
+
+[Sources]
+  chainloader.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+    UefiApplicationEntryPoint
+    UefiLib
+    BaseLib
+    BaseMemoryLib
+    MemoryAllocationLib
+
+
+[Guids]
+
+[Ppis]
+
+[Protocols]
+
+[FeaturePcd]
+
+[FixedPcd]

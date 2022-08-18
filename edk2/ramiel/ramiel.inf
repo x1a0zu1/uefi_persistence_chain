@@ -1,0 +1,38 @@
+[Defines]
+  INF_VERSION = 1.25
+  BASE_NAME = ramiel
+  FILE_GUID = 1fe0375e-7bf8-4095-a65f-64393e3986ff
+  MODULE_TYPE = UEFI_APPLICATION
+  VERSION_STRING = 1.0
+  ENTRY_POINT = UefiEntry
+
+[Sources]
+  ramiel.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  CryptoPkg/CryptoPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  BaseLib
+  BaseMemoryLib
+  DebugLib
+  PrintLib
+  MemoryAllocationLib
+  OpensslLib
+  RamielLib
+
+
+[Guids]
+
+[Ppis]
+
+[Protocols]
+
+[FeaturePcd]
+
+[FixedPcd]
+  gEfiCryptoPkgTokenSpaceGuid.PcdOpensslEcEnabled
