@@ -10,7 +10,7 @@
 #define APPLICATION_SIZE_VAR_GUID {0x875A3D03, 0x6DBD, 0x4E20, {0xB0, 0x3F, 0x53, 0x5E, 0xE3, 0x14, 0xDE, 0xB8}}
 
 #define APPLICATION_VAR L"application"
-#define APPLICATION_VAR_GUID {0x2C299EB5, 0x7424, 0x4580, {0xA1 0xC7, 0x22, 0xFB, 0xDB, 0x8A, 0x71, 0x13}}
+#define APPLICATION_VAR_GUID {0x2C299EB5, 0x7424, 0x4580, {0xA1, 0xC7, 0x22, 0xFB, 0xDB, 0x8A, 0x71, 0x13}}
 
 EFI_STATUS EFIAPI UefiEntry(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE* SystemTable) {
     gST = SystemTable;
@@ -50,7 +50,7 @@ EFI_STATUS EFIAPI UefiEntry(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE* Syst
     mempath[0].Header.Length[0] = (UINT8) sizeof(MEMMAP_DEVICE_PATH);
     mempath[0].Header.Length[1] = (UINT8) (sizeof(MEMMAP_DEVICE_PATH) >> 8);
     mempath[0].MemoryType = EfiLoaderCode;
-    mempath[0].StartingAddress = (UINT64) buff_ptr;
+    mempath[0].StartingAddress = (UINT64) application_ptr;
     mempath[0].EndingAddress = (UINT64) ((UINT8 *) application_ptr + application_size);
 
     mempath[1].Header.Type = END_DEVICE_PATH_TYPE;

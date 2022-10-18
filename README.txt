@@ -17,7 +17,7 @@
 <RAMIEL POC>
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 | -> persistence via flashing PCI option rom DXE drivers, |
-     which manually map arbitrary code stored in nvram    |
+|    which manually map arbitrary code stored in nvram    |
 | -> POC uefi ransomware                                  |
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -36,13 +36,14 @@ NVRAM variables without the RUNTIME_ACCESS flag set cannot be dumped easily from
 but code stored in NVRAM is never executed automatically.
 
 RAMIEL presents a novel persistence "chain" that attempts to remedy these limitations.
-via a small stub stored in PCI option rom that decompresses manually maps a compressed DXE driver stored in nvram,
+via a small stub stored in PCI option rom that decompresses then manually maps a compressed DXE driver stored in nvram,
 RAMIEl can prevent the compressed driver from being easily dumped from OS,-
 utilize around ~300kb (on average) of extra storage, and execute code during DXE.
 
 ** since the driver is manually mapped, RAMIEL will function with secure boot enabled.
 ** since RAMIEL persists entirely off disk, it will survive OS re-installation, complete hard drive wipes-
    and even persist in diskless netboot systems.
+** the RAMIEL chainloader stub is only around ~7kb.
 
 -> diagram
 initial infection:
@@ -77,7 +78,7 @@ ransomware:
 RAMIEL currently loads a simple < 25kb uefi ransomware, which is kind of pointless since ransomware doesnt need persistence but oh well.
 the ransomware itself is nothing remarkable, it is meant to be small in order to fit in a single nvram variable and-
 uses diskio to avoid the overhead of filesystem specific drivers, making it entirely OS agnostic. it will eventually use AES-NI-
-for faster encryption but currently i am too lazy to wrangle with openssl currently.
+for faster encryption but currently i am too lazy to wrangle with openssl.
 
 the ransomware displays a fake firmware update message warning victims not to reboot to maximize damage done.
 as there are no AVs to worry about, the ransomware may be quite effective.
